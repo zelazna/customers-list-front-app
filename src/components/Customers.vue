@@ -27,24 +27,16 @@
 </template>
 
 <script>
+import ApiClient from '../services/apiClient'
 export default {
   name: 'customers',
   data () {
     return {
-      customers: '',
-      instance: this.$http.create({
-        baseURL: 'http://localhost:3000',
-        // auth: {
-        //   username: 'root',
-        //   password: 'root'
-        // },
-        headers: { 'x-auth-token': localStorage.getItem('token') }
-      })
+      customers: ''
     }
   },
   mounted: function () {
-    this.instance
-      .get('/customers')
+    ApiClient.getCustomers()
       .then(data => {
         this.customers = data.data.customers
       })
