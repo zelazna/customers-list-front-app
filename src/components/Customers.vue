@@ -2,37 +2,23 @@
   <div class="container">
     <h1>Customers</h1>
     <div class="center">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Nationalite</th>
-            <th>Mail</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="customer in customers">
-            <td>{{customer.firstName}}</td>
-            <td>{{customer.lastName}}</td>
-            <td>{{customer.nationalite}}</td>
-            <td>{{customer.mail}}</td>
-            <td>del update</td>
-          </tr>
-        </tbody>
-      </table>
+      <customers-table :columns="columns" :customers="customers">
+      </customers-table>
     </div>
   </div>
 </template>
 
 <script>
 import ApiClient from '../services/apiClient'
+import CustomersTable from './Customers/CustomersTable'
+
 export default {
   name: 'customers',
+  components: { CustomersTable },
   data () {
     return {
-      customers: ''
+      customers: [],
+      columns: ['FirstName', 'LastName', 'Nationality', 'Mail', 'Actions']
     }
   },
   mounted: function () {
@@ -41,22 +27,17 @@ export default {
         this.customers = data.data.customers
       })
       .catch(err => console.log(err))
-  },
-  methods: {}
+  }
 }
 </script>
 
 <style scoped>
-th {
-  text-align: center
+.container h1{
+  margin-bottom: 30px;
 }
-
-table {
-  width: 75%
-}
-
 .center {
   display: flex;
   justify-content: center;
 }
+
 </style>
