@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <h1>Customers</h1>
+    <div v-if="error" class="alert alert-danger" role="alert">
+      <strong>{{error.message}}</strong>
+    </div>
     <div class="center">
       <customers-table :columns="columns" :customers="customers">
       </customers-table>
@@ -17,6 +20,7 @@ export default {
   components: { CustomersTable },
   data () {
     return {
+      error: undefined,
       customers: [],
       columns: ['FirstName', 'LastName', 'Nationality', 'Mail', 'Actions']
     }
@@ -26,18 +30,20 @@ export default {
       .then(data => {
         this.customers = data.data.customers
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        this.error = err
+      })
   }
 }
 </script>
 
 <style scoped>
-.container h1{
-  margin-bottom: 30px;
+.container h1 {
+  margin: 30px;
 }
+
 .center {
   display: flex;
   justify-content: center;
 }
-
 </style>

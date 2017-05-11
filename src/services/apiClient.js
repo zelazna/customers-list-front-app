@@ -7,6 +7,8 @@ class ApiClient {
       timeout: 1000
     })
     this.baseUrl = baseUrl
+    this.config = {}
+    this.config.headers = { 'x-auth-token': localStorage.getItem('token') }
   }
 
   login (username, password) {
@@ -18,19 +20,17 @@ class ApiClient {
     return this.client.get('/login', config)
   }
 
-  logout () {}
-
   getCustomers () {
-    let config = {}
-    config.headers = { 'x-auth-token': localStorage.getItem('token') }
-    return this.client.get('/customers', config)
+    return this.client.get('/customers', this.config)
   }
 
-  getOneCustomer () {}
+  getOneCustomer () { }
 
-  deleteOneCustomer () {}
+  deleteOneCustomer (id) {
+    return this.client.delete(`/customers/${id}`, this.config)
+  }
 
-  updateOneCustomer () {}
+  updateOneCustomer () { }
 }
 
 export default new ApiClient('http://localhost:3000')

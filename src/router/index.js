@@ -1,25 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Customers from '@/components/Customers'
 import Login from '@/components/Login'
-
+import bus from '../services/bus'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
-    {
       path: '/customers',
       name: 'Customers',
-      component: Customers
+      component: Customers,
+      beforeEnter: (to, from, next) => {
+        if (bus.isLoggedIn) {
+          next()
+        } else {
+          next('/')
+        }
+      }
     },
     {
-      path: '/login',
+      path: '/',
       name: 'Login',
       component: Login
     }
