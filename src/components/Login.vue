@@ -19,7 +19,6 @@
 
 <script>
 import ApiClient from '../services/apiClient'
-import bus from '../services/bus'
 
 export default {
   name: 'login',
@@ -36,7 +35,7 @@ export default {
         .login(this.login, this.password)
         .then(response => {
           localStorage.setItem('token', response.data.token)
-          bus.isLoggedIn = true
+          this.$store.commit('login')
           this.$router.push('/customers')
         })
         .catch(error => {

@@ -9,31 +9,34 @@
   
       <div class="collapse navbar-collapse">
         <div class="collapse navbar-collapse justify-content-end">
-          <span class="nav-item">
+          <span v-if="!logged" class="nav-item">
             <router-link class="nav-link" to="/">Login</router-link>
           </span>
-          <span @click="logout" class="nav-item">
+          <span v-if="logged" @click="logout" class="nav-item">
             <button class="btn btn-outline-secondary my-2 my-sm-0" type="button">Logout</button>
           </span>
         </div>
       </div>
     </nav>
-
+  
     <router-view></router-view>
-
+  
   </div>
 </template>
 
 <script>
-import bus from './services/bus'
-
 export default {
   name: 'app',
   methods: {
     logout: function () {
+      this.$store.commit('logout')
       this.$router.push('/')
       localStorage.removeItem('token')
-      bus.isLoggedIn = false
+    }
+  },
+  computed: {
+    logged () {
+      return this.$store.getters.isLoggedIn
     }
   }
 }
@@ -48,7 +51,7 @@ export default {
   color: #2c3e50;
 }
 
-span.nav-item .nav-link{
+span.nav-item .nav-link {
   color: #c2c6ce;
 }
 

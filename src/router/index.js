@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Customers from '@/components/Customers'
 import Login from '@/components/Login'
-import bus from '../services/bus'
+import store from '../store'
+
 Vue.use(Router)
 
 export default new Router({
@@ -12,7 +13,7 @@ export default new Router({
       name: 'Customers',
       component: Customers,
       beforeEnter: (to, from, next) => {
-        if (bus.isLoggedIn) {
+        if (store.state.isLoggedIn) {
           next()
         } else {
           next('/')
