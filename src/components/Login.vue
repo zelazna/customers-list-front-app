@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import ApiClient from '../services/apiClient'
-
 export default {
   name: 'login',
   data () {
@@ -31,8 +29,7 @@ export default {
   },
   methods: {
     logIn: function () {
-      ApiClient
-        .login(this.login, this.password)
+      this.$store.dispatch('logIn', { login: this.login, password: this.password })
         .then(response => {
           localStorage.setItem('token', response.data.token)
           this.$store.commit('login')

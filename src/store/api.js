@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-class ApiClient {
+class Api {
   constructor (baseUrl) {
     this.client = axios.create({
       baseURL: baseUrl,
@@ -30,7 +30,7 @@ class ApiClient {
     return this.client.delete(`/customers/${id}`, this.config)
   }
 
-  updateOneCustomer () { }
+  updateOneCustomer (customer) { }
 }
 
-export default new ApiClient('http://localhost:3000')
+export default new Api('http://localhost:3000')

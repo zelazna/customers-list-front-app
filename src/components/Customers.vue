@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import ApiClient from '../services/apiClient'
 import CustomersTable from './Customers/CustomersTable'
 
 export default {
@@ -26,7 +25,7 @@ export default {
     }
   },
   mounted: function () {
-    ApiClient.getCustomers()
+    this.$store.dispatch('getCustomers')
       .then(data => {
         this.customers = data.data.customers
       })

@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import api from './api'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLoggedIn: false,
-    customers: []
+    isLoggedIn: false
   },
   mutations: {
     logout (state) {
@@ -19,6 +19,20 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: state => {
       return state.isLoggedIn
+    }
+  },
+  actions: {
+    logIn: ({ commit }, { login, password }) => {
+      return api.login(login, password)
+    },
+    getCustomers: ({ commit }) => {
+      return api.getCustomers()
+    },
+    deleteCustomer: ({ commit }, customerId) => {
+      return api.deleteOneCustomer(customerId)
+    },
+    updateCustomer: ({ commit }, customer) => {
+      return api.updateOneCustomer(customer)
     }
   }
 })

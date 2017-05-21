@@ -4,7 +4,7 @@
     <button id="show-modal" @click="showModal = true" type="button" class="btn btn-primary">
       <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add Customer
     </button>
-    <customers-modal v-if="showModal" @close="showModal = false">
+    <customers-modal :customers="customers" :customer="customer" v-if="showModal" @close="showModal = false">
       <!--
               you can use custom content here to overwrite
               default content
@@ -19,15 +19,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(customer,index) in customers">
+        <tr v-for="customer in customers">
           <td>{{customer.firstName}}</td>
           <td>{{customer.lastName}}</td>
           <td>{{customer.nationalite}}</td>
           <td>{{customer.mail}}</td>
           <td>
-            <span class="index">{{index}}</span>
-            <i @click="remove(customer, index)" class="fa fa-trash" aria-hidden="true"></i>
-            <i @click="edit(customer, index)" class="fa fa-pencil" aria-hidden="true"></i>
+            <i @click="remove(customer)" class="fa fa-trash" aria-hidden="true"></i>
+            <i @click="edit(customer)" class="fa fa-pencil" aria-hidden="true"></i>
           </td>
         </tr>
       </tbody>
@@ -36,7 +35,6 @@
   </div>
 </template>
 <script>
-import ApiClient from '../../services/apiClient'
 import CustomersModal from './CustomersModal'
 
 export default {
@@ -50,17 +48,18 @@ export default {
   },
   data () {
     return {
-      showModal: false
+      showModal: false,
+      customer: {}
     }
   },
   methods: {
-    remove: function (customer, index) {
+    remove: function (customer) {
       // TODO voir pour update les props
-      this.customers.splice(this.todos.indexOf(customer), 1)
-      ApiClient.deleteOneCustomer(customer.id)
+      this.customers.splice(this.customers.indexOf(customer), 1)
+      this.$store.dispatch('deleteCustomer', customer.id)
     },
     edit: function (customer, index) {
-      ApiClient.updateOneCustomer()
+      this.$store.dispatch('updateCustomer', customer)
     }
   }
 }

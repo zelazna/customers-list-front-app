@@ -15,25 +15,25 @@
               <div class="form-group row">
                 <label for="firstname" class="col-2 col-form-label">Firstname</label>
                 <div class="col-10">
-                  <input v-model.trim="firstName" class="form-control" type="text" id="firstname">
+                  <input v-model.trim="customer.firstName" placeholder="constantin" class="form-control" type="text" id="firstname">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="lastname" class="col-2 col-form-label">Lastname</label>
                 <div class="col-10">
-                  <input v-model.trim="lastName" class="form-control" type="text" id="lastname">
+                  <input v-model.trim="customer.lastName" placeholder="guidon" class="form-control" type="text" id="lastname">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="nat" class="col-2 col-form-label">Nationality</label>
                 <div class="col-10">
-                  <input v-model.trim="nat" class="form-control" type="text" id="nat">
+                  <input v-model.trim="customer.nat" placeholder="FR" class="form-control" type="text" id="nat">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="example-email-input" class="col-2 col-form-label">Email</label>
                 <div class="col-10">
-                  <input v-model.trim="email" class="form-control" type="email" id="example-email-input">
+                  <input v-model.trim="customer.email" placeholder="constantin.guidon@gmail.com" class="form-control" type="email" id="example-email-input">
                 </div>
               </div>
             </slot>
@@ -41,7 +41,7 @@
   
           <div class="modal-footer">
             <slot name="footer">
-              <button class="btn btn-success modal-default-button" @click="$emit('close')">
+              <button class="btn btn-success modal-default-button" @click="createCustomer(customer)">
                 Validate
               </button>
               <button class="btn btn-danger modal-default-button" @click="$emit('close')">
@@ -58,11 +58,16 @@
 <script>
 export default {
   data () {
-    return {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'toto.tutu@gmail.com',
-      nat: 'FR'
+    return {}
+  },
+  props: {
+    customers: Array,
+    customer: Object
+  },
+  methods: {
+    createCustomer: function (customer) {
+      console.log(customer)
+      this.$emit('close')
     }
   }
 }
@@ -111,12 +116,6 @@ export default {
 .modal-default-button {
   float: right;
 }
-
-
-
-
-
-
 
 /*
  * The following styles are auto-applied to elements with
