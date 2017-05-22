@@ -1,15 +1,16 @@
 <template>
   <div>
-  
+    <input type="text" v-model="search" class="form-control" placeholder="Search....">
     <button id="show-modal" @click="showModal = true" type="button" class="btn btn-primary">
       <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add Customer
     </button>
     <customers-modal 
     :customers="customers" 
-    :customer="customer"
+    :customer="customer" 
+    :languages="languages"
     v-if="showModal" 
     @create="create" 
-    @update="edit"
+    @update="edit" 
     @close="showModal = false, customer = {}">
     </customers-modal>
   
@@ -20,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="customer in customers">
+        <tr v-for="customer in filteredData">
           <td>{{customer.firstName}}</td>
           <td>{{customer.lastName}}</td>
           <td>{{customer.nationalite}}</td>
@@ -50,7 +51,9 @@ export default {
   data () {
     return {
       showModal: false,
-      customer: {}
+      customer: {},
+      search: '',
+      languages: ['FR', 'DE', 'IT', 'EN']
     }
   },
   methods: {
@@ -73,6 +76,20 @@ export default {
           this.customers.push(response.data.customer)
         })
     }
+  },
+  computed: {
+    filteredData: function () {
+      var search = this.search && this.search.toLowerCase()
+      var data = this.customers
+      if (search) {
+        data = data.filter(function (row) {
+          return Object.keys(row).some(function (key) {
+            return String(row[key]).toLowerCase().indexOf(search) > -1
+          })
+        })
+      }
+      return data
+    }
   }
 }
 </script>
@@ -93,5 +110,10 @@ i {
 button#show-modal {
   margin-bottom: 15px;
   float: right;
+}
+
+input {
+  float: left;
+  width: 40%
 }
 </style>

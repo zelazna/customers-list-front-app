@@ -26,9 +26,9 @@
               </div>
               <div class="form-group row">
                 <label for="nat" class="col-2 col-form-label">Nationality</label>
-                <div class="col-10">
-                  <input v-model.trim="customer.nationalite" placeholder="FR" class="form-control" type="text" id="nat">
-                </div>
+                <select v-model="customer.nationalite">
+                  <option v-for="lang in languages" :value="lang">{{lang}}</option>
+                </select>
               </div>
               <div class="form-group row">
                 <label for="example-email-input" class="col-2 col-form-label">Email</label>
@@ -67,7 +67,8 @@ export default {
   },
   props: {
     customers: Array,
-    customer: Object
+    customer: Object,
+    languages: Array
   },
   methods: {
     createCustomer: function (customer) {
@@ -86,6 +87,11 @@ export default {
 </script>
 
 <style scoped>
+
+label[for="nat"]{
+  margin-right: 8%;
+}
+
 .index {
   visibility: hidden
 }
