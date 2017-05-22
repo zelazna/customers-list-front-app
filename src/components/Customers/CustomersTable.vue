@@ -69,8 +69,8 @@ export default {
     },
     create: function (customer) {
       this.$store.dispatch('createCustomer', customer)
-        .then(customer => {
-          this.customers.push(customer)
+        .then(response => {
+          this.customers.push(response.data.customer)
         })
     }
   }
