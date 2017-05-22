@@ -30,7 +30,14 @@ class Api {
     return this.client.delete(`/customers/${id}`, this.config)
   }
 
-  updateOneCustomer (customer) { }
+  updateOneCustomer (customer) {
+    return this.client.put(`/customers/${customer.id}`, customer, this.config)
+  }
+
+  createOneCustomer (customer) {
+    customer.status = 'PENDING'
+    return this.client.post('/customers', customer, this.config)
+  }
 }
 
 export default new Api('http://localhost:3000')

@@ -6,7 +6,7 @@
   
           <div class="modal-header">
             <slot name="header">
-              <h3 class="center">Add a customer</h3>
+              <h3 slot="header">{{ mode }} customer</h3>
             </slot>
           </div>
   
@@ -27,13 +27,13 @@
               <div class="form-group row">
                 <label for="nat" class="col-2 col-form-label">Nationality</label>
                 <div class="col-10">
-                  <input v-model.trim="customer.nat" placeholder="FR" class="form-control" type="text" id="nat">
+                  <input v-model.trim="customer.nationalite" placeholder="FR" class="form-control" type="text" id="nat">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="example-email-input" class="col-2 col-form-label">Email</label>
                 <div class="col-10">
-                  <input v-model.trim="customer.email" placeholder="constantin.guidon@gmail.com" class="form-control" type="email" id="example-email-input">
+                  <input v-model.trim="customer.mail" placeholder="constantin.guidon@gmail.com" class="form-control" type="email" id="example-email-input">
                 </div>
               </div>
             </slot>
@@ -41,8 +41,11 @@
   
           <div class="modal-footer">
             <slot name="footer">
-              <button class="btn btn-success modal-default-button" @click="createCustomer(customer)">
-                Validate
+              <button v-if="mode != 'update'" class="btn btn-success modal-default-button" @click="createCustomer(customer)">
+                Create
+              </button>
+              <button v-if="mode == 'update'" class="btn btn-success modal-default-button" @click="updateCustomer(customer)">
+                Update
               </button>
               <button class="btn btn-danger modal-default-button" @click="$emit('close')">
                 Cancel
@@ -58,7 +61,9 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      mode: ''
+    }
   },
   props: {
     customers: Array,
@@ -66,9 +71,16 @@ export default {
   },
   methods: {
     createCustomer: function (customer) {
-      console.log(customer)
       this.$emit('close')
+      this.$emit('create', customer)
+    },
+    updateCustomer: function (customer) {
+      this.$emit('close')
+      this.$emit('update', customer)
     }
+  },
+  mounted: function () {
+    this.customer.firstName ? this.mode = 'update' : this.mode = 'create'
   }
 }
 </script>
@@ -107,7 +119,9 @@ export default {
 
 .modal-header h3 {
   margin-top: 0;
+  text-transform: capitalize
 }
+
 
 /*.modal-body {
   margin: 20px 0;
@@ -116,6 +130,7 @@ export default {
 .modal-default-button {
   float: right;
 }
+
 
 /*
  * The following styles are auto-applied to elements with

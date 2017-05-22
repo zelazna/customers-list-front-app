@@ -33,6 +33,9 @@ export default new Vuex.Store({
     },
     updateCustomer: ({ commit }, customer) => {
       return api.updateOneCustomer(customer)
+    },
+    createCustomer: ({ commit }, customer) => {
+      return api.createOneCustomer(customer)
     }
   }
 })

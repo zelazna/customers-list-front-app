@@ -4,12 +4,13 @@
     <button id="show-modal" @click="showModal = true" type="button" class="btn btn-primary">
       <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add Customer
     </button>
-    <customers-modal :customers="customers" :customer="customer" v-if="showModal" @close="showModal = false">
-      <!--
-              you can use custom content here to overwrite
-              default content
-            -->
-      <!--<h3 slot="header">custom header</h3>-->
+    <customers-modal 
+    :customers="customers" 
+    :customer="customer"
+    v-if="showModal" 
+    @create="create" 
+    @update="edit"
+    @close="showModal = false, customer = {}">
     </customers-modal>
   
     <table class="table table-striped">
@@ -26,7 +27,7 @@
           <td>{{customer.mail}}</td>
           <td>
             <i @click="remove(customer)" class="fa fa-trash" aria-hidden="true"></i>
-            <i @click="edit(customer)" class="fa fa-pencil" aria-hidden="true"></i>
+            <i @click="editCustomer(customer)" class="fa fa-pencil" aria-hidden="true"></i>
           </td>
         </tr>
       </tbody>
@@ -53,13 +54,24 @@ export default {
     }
   },
   methods: {
+    editCustomer: function (customer) {
+      this.customer = customer
+      this.showModal = true
+    },
     remove: function (customer) {
-      // TODO voir pour update les props
-      this.customers.splice(this.customers.indexOf(customer), 1)
       this.$store.dispatch('deleteCustomer', customer.id)
+        .then(response => {
+          this.customers.splice(this.customers.indexOf(customer), 1)
+        })
     },
     edit: function (customer, index) {
       this.$store.dispatch('updateCustomer', customer)
+    },
+    create: function (customer) {
+      this.$store.dispatch('createCustomer', customer)
+        .then(customer => {
+          this.customers.push(customer)
+        })
     }
   }
 }
