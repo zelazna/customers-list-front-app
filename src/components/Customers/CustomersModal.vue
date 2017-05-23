@@ -32,8 +32,9 @@
               </div>
               <div class="form-group row">
                 <label for="example-email-input" class="col-2 col-form-label">Email</label>
-                <div class="col-10">
-                  <input v-model.trim="customer.mail" placeholder="constantin.guidon@gmail.com" class="form-control" type="email" id="example-email-input">
+                <div class="col-10" :class="{ 'control': true, 'has-danger': errors.has('email') }">
+                  <input class="form-control" v-validate="'required|email'" :class="{'form-control-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
+                  <small v-show="errors.has('email')" class="form-control-feedback">{{ errors.first('email') }}</small>
                 </div>
               </div>
             </slot>
@@ -72,8 +73,9 @@ export default {
   },
   methods: {
     createCustomer: function (customer) {
-      this.$emit('close')
-      this.$emit('create', customer)
+      // this.$emit('close')
+      // this.$emit('create', customer)
+      console.log(this.$validator.errorBag, this.errors)
     },
     updateCustomer: function (customer) {
       this.$emit('close')
@@ -87,8 +89,11 @@ export default {
 </script>
 
 <style scoped>
+small.has-danger{
+  text-align: left;
+}
 
-label[for="nat"]{
+label[for="nat"] {
   margin-right: 8%;
 }
 
@@ -129,6 +134,7 @@ label[for="nat"]{
 }
 
 
+
 /*.modal-body {
   margin: 20px 0;
 }*/
@@ -136,6 +142,7 @@ label[for="nat"]{
 .modal-default-button {
   float: right;
 }
+
 
 
 /*

@@ -6,7 +6,9 @@ import router from './router'
 import store from './store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'font-awesome/css/font-awesome.css'
+import VeeValidate from 'vee-validate'
 
+Vue.use(VeeValidate)
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({

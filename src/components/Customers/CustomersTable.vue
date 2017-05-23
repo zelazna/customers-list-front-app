@@ -7,7 +7,7 @@
     <customers-modal 
     :customers="customers" 
     :customer="customer" 
-    :languages="languages"
+    :languages="languages" 
     v-if="showModal" 
     @create="create" 
     @update="edit" 
@@ -51,7 +51,12 @@ export default {
   data () {
     return {
       showModal: false,
-      customer: {},
+      customer: {
+        firstName: '',
+        lastName: '',
+        mail: '',
+        nationalite: ''
+      },
       search: '',
       languages: ['FR', 'DE', 'IT', 'EN']
     }
